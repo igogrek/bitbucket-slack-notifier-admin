@@ -36,7 +36,7 @@
               <td>{{user.bitBucketId}}</td>
               <td>{{user.slackId}}</td>
               <td>
-                <a class="button is-small">Test Slack ID</a>
+                <a class="button is-small test-slack">Test Slack ID</a>
                 <a class="button is-small"
                    @click="testUserMapping(user)"
                    v-if="!user.unsaved"
@@ -110,10 +110,12 @@
           });
       },
       addUserMapping() {
-        this.users.push(Object.assign({unsaved: true}, this.newUser));
-        this.newUser.slackId = '';
-        this.newUser.bitBucketId = '';
-        this.newUser.status = '';
+        if (this.newUser.slackId && this.newUser.bitBucketId) {
+          this.users.push(Object.assign({unsaved: true}, this.newUser));
+          this.newUser.slackId = '';
+          this.newUser.bitBucketId = '';
+          this.newUser.status = '';
+        }
       },
       removeUserMapping(user) {
         this.users.splice(this.users.indexOf(user), 1);
@@ -129,6 +131,10 @@
 
   .table tr.is-selected {
     background-color: $light-orange;
+
+    .test-slack {
+      color: $black;
+    }
 
     &:hover {
       background-color: $light-orange;
