@@ -65,7 +65,7 @@
         </div>
       </div>
       <footer class="card-footer">
-        <a href="#" class="card-footer-item">Save User Mappings</a>
+        <a href="#" class="card-footer-item" @click="saveMappings">Save User Mappings</a>
       </footer>
     </div>
   </div>
@@ -138,6 +138,18 @@
       },
       removeUserMapping(user) {
         this.users.splice(this.users.indexOf(user), 1);
+      },
+      saveMappings() {
+        const mapping = {};
+        this.users.forEach(user => {
+          mapping[user.bitBucketId] = user.slackId;
+        });
+        axios.post(`/users`, mapping)
+          .then(response => {
+            this.users.forEach(user => {
+              user.unsaved = false;
+            });
+          })
       }
     }
   }
