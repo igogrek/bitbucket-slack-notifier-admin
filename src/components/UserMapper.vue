@@ -20,32 +20,37 @@
                 <input class="input is-small" placeholder="Slack Id" v-model="newUser.slackId">
               </td>
               <td>
-                <a class="button is-small is-primary"
-                   v-bind:disabled="!newUser.slackId">Test Slack ID</a>
+                <a class="button is-small"
+                   v-bind:disabled="!newUser.slackId"
+                   v-bind:class="{
+                     'is-loading': newUser.loading ,
+                     'is-success': newUser.status == 'success',
+                     'is-danger': newUser.status == 'error'
+                   }">Test Slack ID</a>
                 <a class="button is-small is-success"
                    v-bind:disabled="!newUser.bitBucketId || !newUser.slackId"
                    @click="addUserMapping">Add</a>
-                <span class="tag is-rounded is-success" v-if="newUser.status == 'success'">Success</span>
-                <span class="tag is-rounded is-danger" v-if="newUser.status == 'error'">Error</span>
               </td>
             </tr>
             <tr v-for="user in users" v-bind:class="{ 'is-selected': user.unsaved }">
               <td>{{user.bitBucketId}}</td>
               <td>{{user.slackId}}</td>
               <td>
-                <a class="button is-small is-primary">Test Slack ID</a>
-                <a class="button is-small is-info"
+                <a class="button is-small">Test Slack ID</a>
+                <a class="button is-small"
                    @click="testUserMapping(user)"
                    v-if="!user.unsaved"
-                   v-bind:class="{ 'is-loading': user.loading }">
+                   v-bind:class="{
+                     'is-loading': user.loading ,
+                     'is-success': user.status == 'success',
+                     'is-danger': user.status == 'error'
+                   }">
                   Test Mapping
                 </a>
                 <a class="button is-small is-danger"
                    @click="removeUserMapping(user)">
                   Remove
                 </a>
-                <span class="tag is-rounded is-success" v-if="user.status == 'success'">Success</span>
-                <span class="tag is-rounded is-danger" v-if="user.status == 'error'">Error</span>
               </td>
             </tr>
             </tbody>
