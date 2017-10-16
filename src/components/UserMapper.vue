@@ -14,17 +14,23 @@
             <tbody>
             <tr>
               <td>
-                <input class="input is-small" placeholder="BitBucket Id">
+                <input class="input is-small" placeholder="BitBucket Id" v-model="newUser.bitBucketId">
               </td>
               <td>
-                <input class="input is-small" placeholder="Slack Id">
+                <input class="input is-small" placeholder="Slack Id" v-model="newUser.slackId">
               </td>
               <td>
-                <a class="button is-small is-primary">Test</a>
-                <a class="button is-small is-success">Add</a>
+                <a class="button is-small is-primary"
+                   v-bind:disabled="!newUser.slackId"
+                   @click="testUserMapping(newUser)">Test</a>
+                <a class="button is-small is-success"
+                   v-bind:disabled="!newUser.bitBucketId || !newUser.slackId"
+                   @click="addUserMapping">Add</a>
+                <span class="tag is-rounded is-success" v-if="newUser.status == 'success'">Success</span>
+                <span class="tag is-rounded is-danger" v-if="newUser.status == 'error'">Error</span>
               </td>
             </tr>
-            <tr v-for="user in users">
+            <tr v-for="user in users" v-bind:class="{ 'is-selected': user.unsaved }">
               <td>{{user.bitBucketId}}</td>
               <td>{{user.slackId}}</td>
               <td>
@@ -33,7 +39,12 @@
                    v-bind:class="{ 'is-loading': user.loading }">
                   Test
                 </a>
-                <a class="button is-small is-danger">Remove</a>
+                <a class="button is-small is-danger"
+                   @click="removeUserMapping(user)">
+                  Remove
+                </a>
+                <span class="tag is-rounded is-success" v-if="user.status == 'success'">Success</span>
+                <span class="tag is-rounded is-danger" v-if="user.status == 'error'">Error</span>
               </td>
             </tr>
             </tbody>
@@ -55,6 +66,11 @@
     name: 'UserMapper',
     data() {
       return {
+        newUser: {
+          bitBucketId: '',
+          slackId: '',
+          status: ''
+        },
         users: []
       }
     },
@@ -74,17 +90,42 @@
       },
       testUserMapping(user) {
         this.$set(user, 'loading', true);
+        testMessage.pullRequestUrl = location.href;
+        testMessage.pullRequestReviewers = user.slackId;
+
         axios.post(`/notify`, testMessage)
           .then(response => {
+            this.$set(user, 'status', 'success');
             this.$set(user, 'loading', false);
           })
           .catch(error => {
+            this.$set(user, 'status', 'error');
             this.$set(user, 'loading', false);
           });
+      },
+      addUserMapping() {
+        this.users.push(Object.assign({unsaved: true}, this.newUser));
+        this.newUser.slackId = '';
+        this.newUser.bitBucketId = '';
+        this.newUser.status = '';
+      },
+      removeUserMapping(user) {
+        this.users.splice(this.users.indexOf(user), 1);
       }
     }
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  @import '../../node_modules/bulma/sass/utilities/initial-variables';
+
+  $light-orange: lighten($orange, 20%);
+
+  .table tr.is-selected {
+    background-color: $light-orange;
+
+    &:hover {
+      background-color: $light-orange;
+    }
+  }
 </style>

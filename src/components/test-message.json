@@ -1,15 +1,15 @@
 {
-  "pullRequestReviewers": "imini",
-  "pullRequestTitle": "JIRA-123 Some feature",
+  "pullRequestReviewers": "iminin",
+  "pullRequestTitle": "Test Message",
   "pullRequestUrl": "http://stackoverflow.com/questions/111102/how-do-javascript-closures-work",
-  "pullRequestAuthorDisplayName": "Vasiliy Pupkin",
-  "pullRequestAction": "COMMENTED",
+  "pullRequestAuthorDisplayName": "Bot User",
+  "pullRequestAction": "BUTTON_TRIGGER",
   "buttonTrigger": "",
   "pullRequestAuthor": "iminin",
   "pullRequestApprovedCount": 2,
-  "triggerUser": "jenkins",
+  "triggerUser": "test",
   "triggerDisplayName": "Test",
-  "comment" : "BUILD FAILED",
+  "comment" : "This is a test message",
   "commentAction" : "ADDED",
   "buildFailed": true
 }
