@@ -1,15 +1,15 @@
 {
   "pullRequestReviewers": "iminin",
-  "pullRequestTitle": "Test Message",
+  "pullRequestTitle": "Test BitBucket Notifier message: SUCCESS",
   "pullRequestUrl": "http://stackoverflow.com/questions/111102/how-do-javascript-closures-work",
-  "pullRequestAuthorDisplayName": "Bot User",
+  "pullRequestAuthorDisplayName": "Bitbucket Bot",
   "pullRequestAction": "BUTTON_TRIGGER",
   "buttonTrigger": "",
   "pullRequestAuthor": "iminin",
   "pullRequestApprovedCount": 2,
   "triggerUser": "test",
   "triggerDisplayName": "Test",
-  "comment" : "This is a test message",
+  "comment" : "This is a successful test message",
   "commentAction" : "ADDED",
   "buildFailed": true
 }

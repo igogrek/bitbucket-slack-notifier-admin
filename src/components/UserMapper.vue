@@ -22,10 +22,11 @@
               <td>
                 <a class="button is-small"
                    v-bind:disabled="!newUser.slackId"
+                   @click="testSlackChannel(newUser)"
                    v-bind:class="{
-                     'is-loading': newUser.loading ,
-                     'is-success': newUser.status == 'success',
-                     'is-danger': newUser.status == 'error'
+                     'is-loading': newUser.slackLoading ,
+                     'is-success': newUser.slackStatus == 'success',
+                     'is-danger': newUser.slackStatus == 'error'
                    }">Test Slack ID</a>
                 <a class="button is-small is-success"
                    v-bind:disabled="!newUser.bitBucketId || !newUser.slackId"
@@ -36,7 +37,13 @@
               <td>{{user.bitBucketId}}</td>
               <td>{{user.slackId}}</td>
               <td>
-                <a class="button is-small test-slack">Test Slack ID</a>
+                <a class="button is-small test-slack"
+                   @click="testSlackChannel(user)"
+                   v-bind:class="{
+                     'is-loading': user.slackLoading ,
+                     'is-success': user.slackStatus == 'success',
+                     'is-danger': user.slackStatus == 'error'
+                   }">Test Slack ID</a>
                 <a class="button is-small"
                    @click="testUserMapping(user)"
                    v-if="!user.unsaved"
@@ -107,6 +114,18 @@
           .catch(error => {
             this.$set(user, 'status', 'error');
             this.$set(user, 'loading', false);
+          });
+      },
+      testSlackChannel(user) {
+        this.$set(user, 'slackLoading', true);
+        axios.post(`/notify/test`, {channel: user.slackId, url: location.href})
+          .then(response => {
+            this.$set(user, 'slackStatus', 'success');
+            this.$set(user, 'slackLoading', false);
+          })
+          .catch(error => {
+            this.$set(user, 'slackStatus', 'error');
+            this.$set(user, 'slackLoading', false);
           });
       },
       addUserMapping() {
