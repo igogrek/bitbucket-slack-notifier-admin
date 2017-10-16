@@ -33,6 +33,9 @@ module.exports = {
     proxyTable: {
       '/users': {
         target: 'http://localhost:9999',
+      },
+      '/notify': {
+        target: 'http://localhost:9999',
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
