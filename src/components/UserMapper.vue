@@ -21,8 +21,7 @@
               </td>
               <td>
                 <a class="button is-small is-primary"
-                   v-bind:disabled="!newUser.slackId"
-                   @click="testUserMapping(newUser)">Test</a>
+                   v-bind:disabled="!newUser.slackId">Test Slack ID</a>
                 <a class="button is-small is-success"
                    v-bind:disabled="!newUser.bitBucketId || !newUser.slackId"
                    @click="addUserMapping">Add</a>
@@ -34,10 +33,12 @@
               <td>{{user.bitBucketId}}</td>
               <td>{{user.slackId}}</td>
               <td>
-                <a class="button is-small is-primary"
+                <a class="button is-small is-primary">Test Slack ID</a>
+                <a class="button is-small is-info"
                    @click="testUserMapping(user)"
+                   v-if="!user.unsaved"
                    v-bind:class="{ 'is-loading': user.loading }">
-                  Test
+                  Test Mapping
                 </a>
                 <a class="button is-small is-danger"
                    @click="removeUserMapping(user)">
@@ -91,7 +92,7 @@
       testUserMapping(user) {
         this.$set(user, 'loading', true);
         testMessage.pullRequestUrl = location.href;
-        testMessage.pullRequestReviewers = user.slackId;
+        testMessage.pullRequestReviewers = user.bitBucketId;
 
         axios.post(`/notify`, testMessage)
           .then(response => {
