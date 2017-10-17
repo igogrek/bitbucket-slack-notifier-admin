@@ -2,6 +2,8 @@
 
 #### Web interface for management of the notifier
 
+This is the source of Web UI for the https://github.com/Igogrek/bitbucket-slack-notifier
+
 UI is based on Vue.js and Bulma CSS framework.
 
 Right now it's very basic and main functionality is managing the user
