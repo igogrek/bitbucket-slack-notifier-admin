@@ -6,6 +6,8 @@ This is the source of Web UI for the https://github.com/Igogrek/bitbucket-slack-
 
 UI is based on Vue.js and Bulma CSS framework.
 
+![Screenshot](https://raw.github.com/Igogrek/bitbucket-slack-notifier-admin/master/screen.png)
+
 Right now it's very basic and main functionality is managing the user
 mapping between BitBucket user Ids and Slack channel Ids.
 
